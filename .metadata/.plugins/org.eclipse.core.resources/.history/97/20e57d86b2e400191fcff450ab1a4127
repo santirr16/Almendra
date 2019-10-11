@@ -1,0 +1,10 @@
+
+
+object TestScala {
+  
+  
+  
+  def maximalSquare(strArr: List[String]): String = {
+strArr(0)
+}
+}

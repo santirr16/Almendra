@@ -1,0 +1,12 @@
+
+
+object TestScala {
+  def main(args: Array[String]): Unit = {
+    println("Hello world!")
+  }
+
+  def maximalSquare(strArr: List[String]): String = {
+    strArr(0)
+  }
+
+}

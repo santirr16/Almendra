@@ -1,0 +1,114 @@
+package logica;
+
+import javax.swing.JOptionPane;
+
+public class Prueba2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+//		int cantidadTanques = Integer
+//				.parseInt(JOptionPane.showInputDialog(null, "Por favor ingrese la cantidad de tanques"));
+//		int[] tanques = new int[cantidadTanques];
+//		for (int i = 0; i < tanques.length; i++) {
+//			tanques[i] = Integer.parseInt(JOptionPane.showInputDialog(null,
+//					"Ingrese la capacidad en litros del tanque numero " + (i + 1) + " :"));
+//		}
+//		int cantidadTuberias = Integer
+//				.parseInt(JOptionPane.showInputDialog(null, "Por favor ingrese la cantidad de tuberias"));
+//		String[][] tuberias = new String[cantidadTuberias][2];
+//
+//		for (int i = 0; i < tuberias.length; i++) {
+//			tuberias[i][0] = JOptionPane.showInputDialog(null,
+//					"ingrese los 2 tanques a los que pertenece esta tuberia separados por ,");
+//			tuberias[i][1] = JOptionPane.showInputDialog(null,
+//					"ingrese la velocidad en litros por segundo para esta tuberia");
+//		}
+//
+//		int flujoInicial = Integer.parseInt(
+//				JOptionPane.showInputDialog(null, "Ingrese por favor el valor del flujo de entrada del liquido"));
+//		int tiempo = Integer.parseInt(
+//				JOptionPane.showInputDialog(null, "Ingrese por favor el valor del tiempo a analizar los tanques"));
+
+		int[] resultado = medirTanques(new int[] { 10, 25, 30, 53 },
+				new String[][] { { "0,1", "1" }, { "0,2", "4" }, { "2,3", "8" } }, 4, 10, new int[] { 0, 0, 0, 0 }, 0,
+				0);
+		System.out.println("fin");
+		for (int i = 0; i < resultado.length; i++) {
+			System.out.println(resultado[i]);
+		}
+	}
+
+	public static int[] medirTanques(int[] tanques, String[][] tuberias, int flujoInicial, int tiempo,
+			int[] capacidadTanques, int j, int iteraciones) {
+		while (iteraciones <= tiempo) {
+			for (int i = j; i < capacidadTanques.length; i++) {
+				if (capacidadTanques[i] == 0) {
+					if (i == 0) {
+						capacidadTanques[i] = flujoInicial;
+						System.out.println(capacidadTanques[i]);
+						iteraciones++;
+					} else {
+						if (capacidadTanques[0] + flujoInicial > tanques[0]) {
+
+							capacidadTanques = ingresarLiquido(tanques, capacidadTanques, i, tuberias);
+							System.out.println(capacidadTanques[0]);
+							System.out.println(capacidadTanques[i]);
+							capacidadTanques = medirTanques(tanques, tuberias, flujoInicial, tiempo, capacidadTanques,
+									i + 1, iteraciones);
+							capacidadTanques[0] = tanques[0];
+							System.out.println(capacidadTanques[i]);
+							iteraciones++;
+						} else {
+							
+							capacidadTanques = ingresarLiquido(tanques, capacidadTanques, i, tuberias);
+							System.out.println(capacidadTanques[0]);
+							System.out.println(capacidadTanques[i]);
+							capacidadTanques = medirTanques(tanques, tuberias, flujoInicial, tiempo, capacidadTanques,
+									i + 1, iteraciones);
+							capacidadTanques[0] += flujoInicial;
+							System.out.println(capacidadTanques[i]);
+							iteraciones++;
+						}
+					}
+				} else {
+					if (capacidadTanques[0] + flujoInicial > tanques[0]) {
+						
+						System.out.println(capacidadTanques[0]);
+						capacidadTanques = ingresarLiquido(tanques, capacidadTanques, i, tuberias);
+						capacidadTanques = medirTanques(tanques, tuberias, flujoInicial, tiempo, capacidadTanques,
+								i + 1, iteraciones);
+						capacidadTanques[0] = tanques[0];
+						System.out.println(capacidadTanques[i]);
+						iteraciones++;
+					} else {
+						
+						System.out.println(capacidadTanques[0]);
+						capacidadTanques = ingresarLiquido(tanques, capacidadTanques, i, tuberias);
+						capacidadTanques = medirTanques(tanques, tuberias, flujoInicial, tiempo, capacidadTanques,
+								i + 1, iteraciones);
+						capacidadTanques[0] += flujoInicial;
+						System.out.println(capacidadTanques[i]);
+						iteraciones++;
+					}
+
+				}
+			}
+		}
+		return capacidadTanques;
+	}
+
+	public static int[] ingresarLiquido(int[] tanques, int[] capacidadTanques, int i, String[][] tuberias) {
+		for (int j = 0; j < tuberias.length; j++) {
+			String[] tuberia = tuberias[j][0].split(",");
+			if (tuberia[1].equals(i + "")) {
+				if (capacidadTanques[i - 1] >= Integer.parseInt(tuberias[j][1])) {
+					capacidadTanques[i] += Integer.parseInt(tuberias[j][1]);
+					capacidadTanques[Integer.parseInt(tuberia[1]) - 1] -= Integer.parseInt(tuberias[j][1]);
+				}
+			}
+		}
+		return capacidadTanques;
+
+	}
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/santi/eclipse-workspace/Almendra/jar/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="jar/Util.jar"/>
+	<classpathentry kind="lib" path="jar/poi-4.1.0.jar"/>
+	<classpathentry kind="lib" path="jar/poi-ooxml-4.1.0.jar"/>
+	<classpathentry kind="lib" path="jar/poi-ooxml-schemas-4.1.0.jar"/>
+	<classpathentry kind="lib" path="jar/xmlbeans-3.1.0.jar"/>
+	<classpathentry kind="lib" path="jar/commons-collections4-4.3.jar"/>
+	<classpathentry kind="lib" path="jar/commons-collections4-4.3-javadoc.jar"/>
+	<classpathentry kind="lib" path="jar/commons-collections4-4.3-sources.jar"/>
+	<classpathentry kind="lib" path="jar/commons-collections4-4.3-test-sources.jar"/>
+	<classpathentry kind="lib" path="jar/commons-collections4-4.3-tests.jar"/>
+	<classpathentry kind="lib" path="jar/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="jar/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="jar/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="jar/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="jar/jbarcodebean-1.2.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_211"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

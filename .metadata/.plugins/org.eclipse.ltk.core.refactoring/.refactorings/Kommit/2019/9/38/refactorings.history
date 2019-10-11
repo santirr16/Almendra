@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;Logica&apos; to &apos;logica&apos;&#x0D;&#x0A;- Original project: &apos;Kommit&apos;&#x0D;&#x0A;- Original element: &apos;Kommit/src/Logica&apos;&#x0D;&#x0A;- Renamed element: &apos;Kommit/src/logica&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;Logica&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;Logica" name="logica" qualified="false" references="true" stamp="1568730887019" textual="false" version="1.0"/>
+</session>

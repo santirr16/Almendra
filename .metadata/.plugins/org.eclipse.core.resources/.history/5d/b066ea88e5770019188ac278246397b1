@@ -1,0 +1,260 @@
+package interfaz;
+
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
+import java.text.ParseException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import logica.Conexion;
+import logica.Logica;
+import logica.Producto;
+import logica.Usuario;
+import javax.swing.SwingConstants;
+
+public class VentanaVenderProductos extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField_1;
+	Conexion conexion;
+	Usuario user;
+	private JTextField textField_2;
+	private JTable table;
+	Logica logica = new Logica();
+	JLabel lblValor = new JLabel("0");
+
+	/**
+	 * Create the frame.
+	 */
+	public VentanaVenderProductos(Conexion conexion, Usuario user) {
+
+		this.conexion = conexion;
+		this.user = user;
+
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(VentanaVenderProductos.class.getResource("/imagenes/Logo viejo.png")));
+		setTitle("Aumentar o Disminuir Inventario");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 555, 300);
+		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.text);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+
+		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.text);
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+
+		JLabel lblCantidad = new JLabel("Cantidad");
+		lblCantidad.setBounds(10, 124, 74, 14);
+		lblCantidad.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 14));
+		panel.add(lblCantidad);
+
+		JLabel lblIdentificador = new JLabel("Identificador");
+		lblIdentificador.setBounds(10, 86, 74, 14);
+		lblIdentificador.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 14));
+		panel.add(lblIdentificador);
+
+		JButton btnVender = new JButton("Vender");
+		btnVender.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char tecla = e.getKeyChar();
+				if (tecla == KeyEvent.VK_ENTER) {
+					btnVender.doClick();
+				}
+			}
+		});
+		btnVender.setBounds(226, 217, 89, 23);
+		btnVender.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 14));
+		panel.add(btnVender);
+
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char tecla = e.getKeyChar();
+				if (tecla == KeyEvent.VK_ENTER) {
+					btnVolver.doClick();
+				}
+			}
+		});
+		btnVolver.setBounds(325, 217, 89, 23);
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaMenuVender menu = new VentanaMenuVender(conexion, user);
+				menu.setVisible(true);
+				dispose();
+			}
+		});
+		btnVolver.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 14));
+		panel.add(btnVolver);
+
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Producto producto=logica.buscarProducto((int) (table.getValueAt(table.getSelectedRow(), 0)), conexion);
+				if ((int) (table.getValueAt(table.getSelectedRow(), 2)) == 1) {
+					((DefaultTableModel) table.getModel()).removeRow(table.getSelectedRow());
+					lblValor.setText(Integer.parseInt(lblValor.getText())-producto.getValorPublico()+"");					
+				}
+
+			}
+		});
+		btnEliminar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char tecla = e.getKeyChar();
+				if (tecla == KeyEvent.VK_ENTER) {
+					btnEliminar.doClick();
+				}
+			}
+		});
+		btnEliminar.setBounds(127, 217, 89, 23);
+		btnEliminar.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 14));
+		panel.add(btnEliminar);
+
+		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char tecla = e.getKeyChar();
+				if (tecla == KeyEvent.VK_ENTER) {
+					if (textField.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "Por favor Ingrese la información");
+					} else {
+						llenarTabla(Integer.parseInt(textField.getText()), 1);
+						textField.setText("");
+					}
+				}
+			}
+		});
+		textField.setBounds(94, 84, 122, 20);
+		textField.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 14));
+		panel.add(textField);
+		textField.setColumns(10);
+		textField_1 = new JTextField();
+		textField_1.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char tecla = e.getKeyChar();
+				if (tecla == KeyEvent.VK_ENTER) {
+					if (textField.getText().equals("") && textField_1.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "Por favor Ingrese la información");
+					} else {
+						llenarTabla(Integer.parseInt(textField.getText()), Integer.parseInt(textField_1.getText()));
+						textField.setText("");
+						textField_1.setText("");
+					}
+				}
+			}
+		});
+		textField_1.setBounds(94, 121, 122, 20);
+		textField_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 14));
+		panel.add(textField_1);
+		textField_1.setColumns(10);
+
+		JLabel lblTotal = new JLabel("Total");
+		lblTotal.setBounds(10, 29, 48, 14);
+		lblTotal.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 20));
+		panel.add(lblTotal);
+
+		lblValor.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 20));
+		lblValor.setBounds(94, 30, 122, 14);
+		panel.add(lblValor);
+
+		textField_2 = new JTextField();
+		textField_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 14));
+		textField_2.setBounds(94, 156, 122, 20);
+		panel.add(textField_2);
+		textField_2.setColumns(10);
+
+		JLabel lblDineroRecibido = new JLabel("Dinero recibido");
+		lblDineroRecibido.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 14));
+		lblDineroRecibido.setBounds(10, 159, 89, 14);
+		panel.add(lblDineroRecibido);
+
+		JLabel lblDevolucin = new JLabel("Devoluci\u00F3n");
+		lblDevolucin.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 18));
+		lblDevolucin.setBounds(10, 54, 74, 14);
+		panel.add(lblDevolucin);
+
+		JLabel label = new JLabel("$ 0");
+		label.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 20));
+		label.setBounds(94, 55, 122, 14);
+		panel.add(label);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(226, 11, 293, 195);
+		panel.add(scrollPane);
+
+		table = new JTable();
+		table.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 14));
+		table.setModel(
+				new DefaultTableModel(new Object[][] {}, new String[] { "Identificador", "Producto", "Cantidad" }));
+		scrollPane.setViewportView(table);
+	}
+
+	public void llenarTabla(int identificador, int cantidad) {
+		Producto producto = logica.buscarProducto(identificador, conexion);
+		NumberFormat formato = NumberFormat.getCurrencyInstance();
+		int contar = 0;
+		if (producto == null) {
+			JOptionPane.showMessageDialog(null, "Producto no encontrado");
+		} else {
+			if (table.getRowCount() > 0) {
+				for (int i = 0; i < table.getRowCount(); i++) {
+					if (identificador == (int) (table.getValueAt(i, 0))) {
+						table.setValueAt((int) (table.getValueAt(i, 2)) + cantidad, i, 2);
+						contar = 1;
+						//Si se desea forzar el formato español:
+						//formatoImporte = NumberFormat.getCurrencyInstance(new Locale("es","ES"));
+//						System.out.println(formatoImporte.format(importe));
+						lblValor.setText(formato.format(Integer.parseInt(lblValor.getText())+producto.getValorPublico())+"");
+					}
+				}
+				if (contar == 0) {
+					Object[] fila = new Object[table.getModel().getColumnCount()];
+					fila[0] = identificador;
+					fila[1] = producto.getNombre();
+					fila[2] = cantidad;
+					((DefaultTableModel) table.getModel()).addRow(fila);
+					lblValor.setText(Integer.parseInt(lblValor.getText())+producto.getValorPublico()+"");
+				}
+			} else {
+				Object[] fila = new Object[table.getModel().getColumnCount()];
+				fila[0] = identificador;
+				fila[1] = producto.getNombre();
+				fila[2] = cantidad;
+				((DefaultTableModel) table.getModel()).addRow(fila);
+				try {
+//					formato.parse(lblValor.getText());
+					lblValor.setText(formato.format((double)formato.parse(lblValor.getText())+producto.getValorPublico())+"");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}
+	}
+}

@@ -1,0 +1,21 @@
+
+
+object TestScala {
+  def main(args: Array[String]): Unit = {
+    maximalSquare(List("0111", "1111", "1111", "1111"))
+  }
+
+  def maximalSquare(strArr: List[String]): String = {
+    println("Hello world!")
+
+    //    var sum = 0
+    //    strArr.foreach(
+    //        if()
+    //
+    //    )
+    for (name <- strArr) println(name)
+
+    strArr(0)
+  }
+
+}
